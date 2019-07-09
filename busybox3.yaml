@@ -1,0 +1,22 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pod-cephfs03
+  labels:
+    test-rbd: "true"
+spec:
+  containers:
+  - name: test-pod3
+    image: busybox:latest
+    command:
+    - "/bin/sh"
+    args:
+    - "-c"
+    - "trap exit TERM; while true; do sleep 1; done"
+    volumeMounts:
+    - name: data
+      mountPath: "/mnt"
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: cephfs-claim2
